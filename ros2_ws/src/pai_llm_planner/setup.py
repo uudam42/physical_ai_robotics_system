@@ -20,6 +20,7 @@ setup(
     entry_points={
         "console_scripts": [
             "planner_node = pai_llm_planner.planner_node:main",
+            "mock_llm_planner_node = pai_llm_planner.mock_llm_planner_node:main",
         ],
     },
 )
