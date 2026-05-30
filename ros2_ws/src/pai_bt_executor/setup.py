@@ -20,6 +20,7 @@ setup(
     entry_points={
         "console_scripts": [
             "bt_executor_node = pai_bt_executor.bt_executor_node:main",
+            "mock_bt_executor_node = pai_bt_executor.mock_bt_executor_node:main",
         ],
     },
 )
