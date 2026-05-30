@@ -9,7 +9,11 @@ find_package(ament_cmake REQUIRED)
 find_package(pai_task_msgs REQUIRED)
 find_package(rclcpp REQUIRED)
 
-add_executable(robot_action_server src/robot_action_server.cpp)
+add_executable(robot_action_server
+  src/gripper_controller.cpp
+  src/motion_planner.cpp
+  src/robot_action_server.cpp
+)
 target_compile_features(robot_action_server PUBLIC cxx_std_17)
 target_include_directories(robot_action_server PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
