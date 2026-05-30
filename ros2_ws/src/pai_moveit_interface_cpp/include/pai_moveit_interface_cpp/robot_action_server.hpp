@@ -28,6 +28,7 @@ private:
   bool checkObject(const std::string & target, std::string & message) const;
 
   bool use_moveit_;
+  std::string planning_group_;
   std::unique_ptr<MotionPlanner> motion_planner_;
   std::unique_ptr<GripperController> gripper_controller_;
   rclcpp::Service<ExecuteRobotAction>::SharedPtr service_;

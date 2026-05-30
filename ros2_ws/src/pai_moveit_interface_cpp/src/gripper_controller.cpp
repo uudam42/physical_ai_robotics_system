@@ -32,7 +32,11 @@ bool GripperController::mockSuccess(const std::string & action, std::string & me
 
 bool GripperController::moveitPlaceholder(std::string & message) const
 {
-  message = "MoveIt 2 execution path is not implemented yet.";
+#ifdef PAI_BUILD_WITH_MOVEIT
+  message = "MoveIt 2 path is compiled but robot model / planning group is not configured yet.";
+#else
+  message = "MoveIt 2 support is disabled at build time. Rebuild with BUILD_WITH_MOVEIT=ON.";
+#endif
   return false;
 }
 

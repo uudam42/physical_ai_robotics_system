@@ -11,6 +11,14 @@
   <depend>pai_task_msgs</depend>
   <depend>rclcpp</depend>
 
+  <!--
+    Optional MoveIt 2 dependency for builds with:
+    colcon build --cmake-args -DBUILD_WITH_MOVEIT=ON
+
+    The default mock-only build intentionally does not require MoveIt 2.
+    Install moveit_ros_planning_interface before enabling BUILD_WITH_MOVEIT.
+  -->
+
   <export>
     <build_type>ament_cmake</build_type>
   </export>

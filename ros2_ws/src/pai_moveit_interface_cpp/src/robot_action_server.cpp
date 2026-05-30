@@ -5,10 +5,15 @@ namespace pai_moveit_interface_cpp
 
 RobotActionServer::RobotActionServer()
 : Node("robot_action_server"),
-  use_moveit_(false)
+  use_moveit_(false),
+  planning_group_("arm")
 {
   use_moveit_ = declare_parameter<bool>("use_moveit", false);
-  motion_planner_ = std::make_unique<MotionPlanner>(use_moveit_);
+  planning_group_ = declare_parameter<std::string>("planning_group", "arm");
+  motion_planner_ = std::make_unique<MotionPlanner>(
+    use_moveit_,
+    planning_group_,
+    get_logger());
   gripper_controller_ = std::make_unique<GripperController>(use_moveit_);
 
   service_ = create_service<ExecuteRobotAction>(
@@ -22,6 +27,7 @@ RobotActionServer::RobotActionServer()
   const char * mode = use_moveit_ ? "MOVEIT_PLACEHOLDER" : "MOCK";
   RCLCPP_INFO(get_logger(), "Robot action server started on /robot_action");
   RCLCPP_INFO(get_logger(), "Robot action server mode: %s", mode);
+  RCLCPP_INFO(get_logger(), "Planning group: %s", planning_group_.c_str());
 }
 
 void RobotActionServer::handleRequest(

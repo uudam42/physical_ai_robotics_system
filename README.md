@@ -226,6 +226,10 @@ Optionally test the robot action service directly:
 ros2 service call /robot_action pai_task_msgs/srv/ExecuteRobotAction "{action_name: 'move_to_home', target: 'home', parameters_json: '{}'}"
 ```
 
+## Phase 5 MoveIt-Ready Interface
+
+MoveIt 2 support is optional behind `BUILD_WITH_MOVEIT=ON`. The default mode remains the mock fallback, so the project can still build and run in environments without MoveIt 2 installed. A full robot model and RViz demo are planned for the next phase.
+
 ## Development Status
 
 This repository is at the initial scaffold stage. See:
