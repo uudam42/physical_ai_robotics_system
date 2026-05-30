@@ -1,0 +1,14 @@
+<root BTCPP_format="4">
+  <BehaviorTree ID="PickAndPlace">
+    <Sequence name="pick_and_place_sequence">
+      <CheckObject />
+      <MoveToPreGrasp />
+      <OpenGripper />
+      <MoveToGrasp />
+      <CloseGripper />
+      <MoveToTarget />
+      <OpenGripper />
+      <ReturnHome />
+    </Sequence>
+  </BehaviorTree>
+</root>

@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>pai_bt_executor_cpp</name>
+  <version>0.0.0</version>
+  <description>C++ BehaviorTree.CPP executor for typed Physical AI task plans.</description>
+  <maintainer email="maintainer@example.com">Maintainer</maintainer>
+  <license>TODO</license>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <depend>behaviortree_cpp</depend>
+  <depend>pai_task_msgs</depend>
+  <depend>rclcpp</depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>
