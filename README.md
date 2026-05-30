@@ -135,6 +135,48 @@ ros2 topic echo /task_status
 
 The Phase 1 command flow is preserved: launch `mock_demo.launch.py`, publish a natural language command to `/user_command`, and watch the mock planner and executor communicate through the typed task pipeline.
 
+## Phase 3 C++ BehaviorTree Executor
+
+Phase 3 adds `pai_bt_executor_cpp`, a C++ ROS 2 package that uses BehaviorTree.CPP for production-style task orchestration. The Python executor remains available as a rapid prototype path, while the C++ BehaviorTree.CPP executor is the intended robotics execution path for future manipulation integration.
+
+The current behavior tree is defined in:
+
+```text
+bt_xml/pick_and_place.xml
+```
+
+Build and source the workspace:
+
+```bash
+cd ros2_ws
+colcon build
+source install/setup.bash
+```
+
+Launch the C++ BehaviorTree.CPP demo:
+
+```bash
+ros2 launch pai_sim_bringup mock_bt_cpp_demo.launch.py
+```
+
+Publish a natural language command:
+
+```bash
+ros2 topic pub /user_command std_msgs/msg/String "{data: 'pick up the red cube and place it into the blue box'}"
+```
+
+Monitor task status:
+
+```bash
+ros2 topic echo /task_status
+```
+
+The launch file passes `bt_xml_path` to the C++ executor. If the repository-level XML path is not valid after installation or relocation, override it manually:
+
+```bash
+ros2 launch pai_sim_bringup mock_bt_cpp_demo.launch.py bt_xml_path:=/absolute/path/to/bt_xml/pick_and_place.xml
+```
+
 ## Development Status
 
 This repository is at the initial scaffold stage. See:

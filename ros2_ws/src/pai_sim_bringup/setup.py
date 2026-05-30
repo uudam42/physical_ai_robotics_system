@@ -11,7 +11,11 @@ setup(
         (f"share/{package_name}", ["package.xml"]),
         (
             f"share/{package_name}/launch",
-            ["launch/demo.launch.py", "launch/mock_demo.launch.py"],
+            [
+                "launch/demo.launch.py",
+                "launch/mock_bt_cpp_demo.launch.py",
+                "launch/mock_demo.launch.py",
+            ],
         ),
     ],
     install_requires=["setuptools"],
