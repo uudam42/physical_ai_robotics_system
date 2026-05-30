@@ -9,6 +9,7 @@ rosidl_generate_interfaces(${PROJECT_NAME}
   "msg/TaskPlan.msg"
   "msg/TaskStatus.msg"
   "msg/TaskStep.msg"
+  "srv/ExecuteRobotAction.srv"
 )
 
 ament_export_dependencies(rosidl_default_runtime)

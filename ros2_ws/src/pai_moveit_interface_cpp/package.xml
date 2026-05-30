@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>pai_moveit_interface_cpp</name>
+  <version>0.0.0</version>
+  <description>Mock C++ robot action interface service for future MoveIt 2 integration.</description>
+  <maintainer email="maintainer@example.com">Maintainer</maintainer>
+  <license>TODO</license>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <depend>pai_task_msgs</depend>
+  <depend>rclcpp</depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>
