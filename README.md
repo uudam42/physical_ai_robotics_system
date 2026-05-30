@@ -177,6 +177,55 @@ The launch file passes `bt_xml_path` to the C++ executor. If the repository-leve
 ros2 launch pai_sim_bringup mock_bt_cpp_demo.launch.py bt_xml_path:=/absolute/path/to/bt_xml/pick_and_place.xml
 ```
 
+## Phase 4 Robot Action Service Layer
+
+Phase 4 introduces a robot action service interface between the C++ BehaviorTree.CPP executor and the future motion planning layer. BehaviorTree.CPP nodes now call `/robot_action`, and `pai_moveit_interface_cpp` currently serves those requests with mocked robot actions.
+
+This prepares the system for MoveIt 2 integration in the next phase while keeping the service contract stable first. Actual MoveIt 2 `MoveGroupInterface` integration is intentionally deferred.
+
+Current architecture:
+
+```text
+Natural language command
+-> typed TaskPlan
+-> C++ BehaviorTree.CPP executor
+-> /robot_action service
+-> mocked MoveIt interface
+-> typed TaskStatus
+```
+
+Build and source the workspace:
+
+```bash
+cd ros2_ws
+colcon build
+source install/setup.bash
+```
+
+Launch the robot action service demo:
+
+```bash
+ros2 launch pai_sim_bringup robot_action_demo.launch.py
+```
+
+Publish a natural language command:
+
+```bash
+ros2 topic pub /user_command std_msgs/msg/String "{data: 'pick up the red cube and place it into the blue box'}"
+```
+
+Monitor task status:
+
+```bash
+ros2 topic echo /task_status
+```
+
+Optionally test the robot action service directly:
+
+```bash
+ros2 service call /robot_action pai_task_msgs/srv/ExecuteRobotAction "{action_name: 'move_to_home', target: 'home', parameters_json: '{}'}"
+```
+
 ## Development Status
 
 This repository is at the initial scaffold stage. See:
