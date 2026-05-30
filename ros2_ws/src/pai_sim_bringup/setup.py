@@ -15,6 +15,7 @@ setup(
                 "launch/demo.launch.py",
                 "launch/mock_bt_cpp_demo.launch.py",
                 "launch/mock_demo.launch.py",
+                "launch/moveit_robot_action_demo.launch.py",
                 "launch/robot_action_demo.launch.py",
             ],
         ),

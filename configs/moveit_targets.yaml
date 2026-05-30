@@ -1,0 +1,49 @@
+# Placeholder MoveIt target definitions.
+# Adapt all group names, named targets, frames, and poses to the selected robot model.
+
+planning_group: arm
+
+named_targets:
+  # These names must match named states in the robot SRDF once a robot model is selected.
+  - home
+  - ready
+
+poses:
+  # Placeholder pose near the red cube before grasping.
+  red_cube_pre_grasp:
+    frame_id: world
+    position:
+      x: 0.40
+      y: 0.10
+      z: 0.30
+    orientation:
+      x: 0.0
+      y: 0.707
+      z: 0.0
+      w: 0.707
+
+  # Placeholder grasp pose for the red cube.
+  red_cube_grasp:
+    frame_id: world
+    position:
+      x: 0.40
+      y: 0.10
+      z: 0.12
+    orientation:
+      x: 0.0
+      y: 0.707
+      z: 0.0
+      w: 0.707
+
+  # Placeholder place pose above the blue box.
+  blue_box_place:
+    frame_id: world
+    position:
+      x: 0.20
+      y: -0.35
+      z: 0.25
+    orientation:
+      x: 0.0
+      y: 0.707
+      z: 0.0
+      w: 0.707

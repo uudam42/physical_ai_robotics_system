@@ -230,6 +230,43 @@ ros2 service call /robot_action pai_task_msgs/srv/ExecuteRobotAction "{action_na
 
 MoveIt 2 support is optional behind `BUILD_WITH_MOVEIT=ON`. The default mode remains the mock fallback, so the project can still build and run in environments without MoveIt 2 installed. A full robot model and RViz demo are planned for the next phase.
 
+## Phase 5.3 MoveIt/RViz Demo Preparation
+
+The project now includes preparation for a MoveIt 2 and RViz demo while staying robot-model agnostic by default. Placeholder targets are provided in `configs/moveit_targets.yaml`, and [MoveIt Demo Setup](docs/moveit_demo_setup.md) explains how to connect a real robot-specific MoveIt 2 configuration later.
+
+Mock-safe build:
+
+```bash
+cd ros2_ws
+colcon build
+source install/setup.bash
+```
+
+MoveIt-enabled package build:
+
+```bash
+cd ros2_ws
+colcon build --packages-select pai_moveit_interface_cpp --cmake-args -DBUILD_WITH_MOVEIT=ON
+```
+
+Launch the MoveIt-intent demo:
+
+```bash
+ros2 launch pai_sim_bringup moveit_robot_action_demo.launch.py
+```
+
+Publish a natural language command:
+
+```bash
+ros2 topic pub /user_command std_msgs/msg/String "{data: 'pick up the red cube and place it into the blue box'}"
+```
+
+Monitor task status:
+
+```bash
+ros2 topic echo /task_status
+```
+
 ## Development Status
 
 This repository is at the initial scaffold stage. See:
