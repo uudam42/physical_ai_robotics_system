@@ -74,7 +74,47 @@ Source the local workspace:
 source install/setup.bash
 ```
 
-At this stage, the packages are placeholders. The build verifies package structure only.
+## Phase 1 Quick Start
+
+Phase 1 provides a minimal mock communication pipeline:
+
+```text
+natural language command -> mock LLM planner -> JSON task plan -> mock behavior-tree executor
+```
+
+Build the workspace:
+
+```bash
+cd ros2_ws
+colcon build
+```
+
+Source the local workspace:
+
+```bash
+source install/setup.bash
+```
+
+Launch the mock demo:
+
+```bash
+ros2 launch pai_sim_bringup mock_demo.launch.py
+```
+
+In another terminal, source the workspace and publish a test command:
+
+```bash
+source install/setup.bash
+ros2 topic pub /user_command std_msgs/msg/String "{data: 'pick up the red cube and place it into the blue box'}"
+```
+
+Expected behavior:
+
+- The mock planner receives the natural language command.
+- It publishes a JSON task plan to `/task_plan`.
+- The mock executor receives the plan and logs each simulated robot step.
+
+Phase 1 uses `std_msgs/String` and JSON for rapid prototyping. Later phases will upgrade this communication path to custom ROS 2 messages.
 
 ## Development Status
 
