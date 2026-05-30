@@ -76,10 +76,10 @@ source install/setup.bash
 
 ## Phase 1 Quick Start
 
-Phase 1 provides a minimal mock communication pipeline:
+Phase 1 introduced a minimal mock communication pipeline:
 
 ```text
-natural language command -> mock LLM planner -> JSON task plan -> mock behavior-tree executor
+natural language command -> mock LLM planner -> task plan -> mock behavior-tree executor
 ```
 
 Build the workspace:
@@ -111,10 +111,29 @@ ros2 topic pub /user_command std_msgs/msg/String "{data: 'pick up the red cube a
 Expected behavior:
 
 - The mock planner receives the natural language command.
-- It publishes a JSON task plan to `/task_plan`.
+- It publishes a task plan to `/task_plan`.
 - The mock executor receives the plan and logs each simulated robot step.
 
-Phase 1 uses `std_msgs/String` and JSON for rapid prototyping. Later phases will upgrade this communication path to custom ROS 2 messages.
+Phase 1 used `std_msgs/String` and JSON for rapid prototyping. Phase 2 keeps this command flow but upgrades the internal task plan topic to typed ROS 2 messages.
+
+## Phase 2 Typed Task Pipeline
+
+Phase 2 replaces JSON string task plans on `/task_plan` with custom ROS 2 messages from `pai_task_msgs`. The user command still enters the system as `std_msgs/String` on `/user_command`, but the planner now publishes `pai_task_msgs/msg/TaskPlan`, and the executor publishes execution updates as `pai_task_msgs/msg/TaskStatus` on `/task_status`.
+
+Inspect the typed task interfaces:
+
+```bash
+ros2 interface show pai_task_msgs/msg/TaskPlan
+ros2 interface show pai_task_msgs/msg/TaskStatus
+```
+
+Monitor task execution status:
+
+```bash
+ros2 topic echo /task_status
+```
+
+The Phase 1 command flow is preserved: launch `mock_demo.launch.py`, publish a natural language command to `/user_command`, and watch the mock planner and executor communicate through the typed task pipeline.
 
 ## Development Status
 

@@ -1,5 +1,3 @@
-# Placeholder task step message for future planner and executor contracts.
-string id
-string action
-string target
+string name
+string status
 string parameters_json

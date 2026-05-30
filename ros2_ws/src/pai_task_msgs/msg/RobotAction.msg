@@ -1,0 +1,3 @@
+string action_name
+string target
+string parameters_json
