@@ -1,19 +1,13 @@
-from pai_task_msgs.msg import TaskPlan, TaskStep
+from pai_llm_planner.planners import MockPlanner
+from pai_llm_planner.task_plan_builder import (
+    build_rejected_task_plan,
+    build_task_plan_msg,
+)
+from pai_llm_planner.task_schema import validate_task_plan
+from pai_task_msgs.msg import TaskPlan
 import rclpy
 from rclpy.node import Node
 from std_msgs.msg import String
-
-
-PICK_AND_PLACE_STEPS = [
-    "check_object",
-    "move_to_pre_grasp",
-    "open_gripper",
-    "move_to_grasp",
-    "close_gripper",
-    "move_to_target",
-    "open_gripper",
-    "return_home",
-]
 
 
 class MockLlmPlannerNode(Node):
@@ -21,6 +15,7 @@ class MockLlmPlannerNode(Node):
 
     def __init__(self) -> None:
         super().__init__("mock_llm_planner_node")
+        self.planner = MockPlanner()
         self.task_plan_publisher = self.create_publisher(TaskPlan, "/task_plan", 10)
         self.user_command_subscription = self.create_subscription(
             String,
@@ -43,32 +38,18 @@ class MockLlmPlannerNode(Node):
         )
 
     def create_task_plan(self, command: str) -> TaskPlan:
-        normalized_command = command.lower()
-        required_words = ("pick", "cube", "box")
+        plan_dict = self.planner.plan(command)
+        is_valid, validation_message = validate_task_plan(plan_dict)
 
-        if all(word in normalized_command for word in required_words):
-            self.get_logger().info("Command matched mock pick-and-place planner rule")
-            return TaskPlan(
-                task_id="demo_task_001",
-                task_type="pick_and_place",
-                object_name="red_cube",
-                source_location="table",
-                target_location="blue_box",
-                steps=[
-                    TaskStep(name=step, status="pending", parameters_json="{}")
-                    for step in PICK_AND_PLACE_STEPS
-                ],
-            )
+        if is_valid:
+            if plan_dict["task_type"] == "pick_and_place":
+                self.get_logger().info("Command matched mock pick-and-place planner rule")
+            else:
+                self.get_logger().warn("Command is unsupported; publishing rejected task plan")
+            return build_task_plan_msg(plan_dict)
 
-        self.get_logger().warn("Command is unsupported; publishing rejected task plan")
-        return TaskPlan(
-            task_id="rejected_task",
-            task_type="unsupported",
-            object_name="",
-            source_location="",
-            target_location="",
-            steps=[],
-        )
+        self.get_logger().error(f"Planner output failed validation: {validation_message}")
+        return build_rejected_task_plan(validation_message)
 
 
 def main(args=None) -> None:
