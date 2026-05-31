@@ -21,6 +21,8 @@ REQUIRED_FIELDS = {
 
 
 def validate_task_plan(plan: dict) -> tuple[bool, str]:
+    # This validator is the safety gate between planner output and ROS 2 execution.
+    # Invalid task types or hallucinated steps must never reach /task_plan.
     if not isinstance(plan, dict):
         return False, "Task plan must be a dict"
 

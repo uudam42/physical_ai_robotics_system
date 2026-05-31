@@ -275,6 +275,25 @@ The planner defaults to `planner_mode:=mock`. Setting `planner_mode:=openai` ena
 ros2 run pai_llm_planner mock_llm_planner_node --ros-args -p planner_mode:=openai -p openai_model:=gpt-4o-mini
 ```
 
+## Phase 6.3 Safe LLM Planning Layer
+
+The project now has a safe LLM planning layer: natural language is converted into a validated task plan, then into a typed ROS 2 message, before C++ BehaviorTree.CPP execution. Invalid or unsupported LLM outputs are rejected before they can reach execution.
+
+See [LLM Planner Safety](docs/llm_planner_safety.md) and [Physical AI Architecture](docs/physical_ai_architecture.md).
+
+Mock planner:
+
+```bash
+ros2 run pai_llm_planner mock_llm_planner_node --ros-args -p planner_mode:=mock
+```
+
+OpenAI planner:
+
+```bash
+export OPENAI_API_KEY=your_api_key_here
+ros2 run pai_llm_planner mock_llm_planner_node --ros-args -p planner_mode:=openai -p openai_model:=gpt-4o-mini
+```
+
 ## Development Status
 
 This repository is at the initial scaffold stage. See:

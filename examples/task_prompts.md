@@ -5,26 +5,38 @@ The planner accepts natural language commands and produces a task-plan dictionar
 ## Supported Commands
 
 ```text
-Pick up the red cube and place it into the blue box.
+pick up the red cube and place it into the blue box
 ```
 
 ```text
-Please pick the cube from the table and put it in the box.
+move the red cube from the table to the blue box
 ```
 
-These commands should produce a `pick_and_place` task using only the allowed steps.
+```text
+place the cube into the box
+```
+
+Supported commands map to `task_type="pick_and_place"` and use only whitelisted task steps.
 
 ## Unsupported Commands
 
 ```text
-Open the kitchen drawer.
+drive to the kitchen
 ```
 
 ```text
-Drive to the charging dock.
+fly the drone outside
 ```
 
-Unsupported commands should produce:
+```text
+cut the object in half
+```
+
+```text
+dance around the room
+```
+
+Unsupported commands map to `task_type="unsupported"` with empty `steps`.
 
 ```json
 {
@@ -37,7 +49,7 @@ Unsupported commands should produce:
 }
 ```
 
-## Expected JSON Shape
+## Expected Pick-And-Place Shape
 
 ```json
 {
