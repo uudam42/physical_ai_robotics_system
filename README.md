@@ -253,6 +253,12 @@ See [Roadmap](docs/roadmap.md) and [Demo Plan](docs/demo_plan.md).
 - Added a MoveIt-ready service abstraction with mock fallback and optional compile path.
 - Added a safety gate so LLM-generated plans cannot directly control robot actions.
 
+## Portfolio / Resume
+
+- [Resume Bullets](docs/resume_bullets.md)
+- [Interview Talking Points](docs/interview_talking_points.md)
+- [Future Work](docs/future_work.md)
+
 ## License
 
 No license has been selected yet. Add a license before publishing or accepting external contributions.
