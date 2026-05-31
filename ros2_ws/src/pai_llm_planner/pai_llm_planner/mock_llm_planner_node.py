@@ -1,4 +1,6 @@
-from pai_llm_planner.planners import MockPlanner
+import os
+
+from pai_llm_planner.planners import MockPlanner, OpenAIPlanner
 from pai_llm_planner.task_plan_builder import (
     build_rejected_task_plan,
     build_task_plan_msg,
@@ -15,7 +17,9 @@ class MockLlmPlannerNode(Node):
 
     def __init__(self) -> None:
         super().__init__("mock_llm_planner_node")
-        self.planner = MockPlanner()
+        self.declare_parameter("planner_mode", "mock")
+        self.declare_parameter("openai_model", "gpt-4o-mini")
+        self.planner = self.create_planner()
         self.task_plan_publisher = self.create_publisher(TaskPlan, "/task_plan", 10)
         self.user_command_subscription = self.create_subscription(
             String,
@@ -24,6 +28,9 @@ class MockLlmPlannerNode(Node):
             10,
         )
         self.get_logger().info("Mock LLM planner node started")
+        self.get_logger().info(
+            f"Planner mode: {self.get_parameter('planner_mode').value}"
+        )
         self.get_logger().info("Listening on /user_command and publishing to /task_plan")
 
     def handle_user_command(self, msg: String) -> None:
@@ -45,11 +52,30 @@ class MockLlmPlannerNode(Node):
             if plan_dict["task_type"] == "pick_and_place":
                 self.get_logger().info("Command matched mock pick-and-place planner rule")
             else:
-                self.get_logger().warn("Command is unsupported; publishing rejected task plan")
+                reason = plan_dict.get("reason", "Command is unsupported")
+                self.get_logger().warn(
+                    f"{reason}; publishing rejected task plan"
+                )
             return build_task_plan_msg(plan_dict)
 
         self.get_logger().error(f"Planner output failed validation: {validation_message}")
         return build_rejected_task_plan(validation_message)
+
+    def create_planner(self) -> MockPlanner | OpenAIPlanner:
+        planner_mode = self.get_parameter("planner_mode").value
+
+        if planner_mode == "mock":
+            return MockPlanner()
+
+        if planner_mode == "openai":
+            openai_model = self.get_parameter("openai_model").value
+            api_key = os.environ.get("OPENAI_API_KEY")
+            return OpenAIPlanner(model_name=openai_model, api_key=api_key)
+
+        self.get_logger().warn(
+            f"Unknown planner_mode '{planner_mode}'; falling back to MockPlanner"
+        )
+        return MockPlanner()
 
 
 def main(args=None) -> None:

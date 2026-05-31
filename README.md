@@ -267,6 +267,14 @@ Monitor task status:
 ros2 topic echo /task_status
 ```
 
+## Phase 6.2 Pluggable Planner Mode
+
+The planner defaults to `planner_mode:=mock`. Setting `planner_mode:=openai` enables the optional `OpenAIPlanner`, which reads `OPENAI_API_KEY` from the environment. OpenAI is not a hard dependency, and all LLM outputs are validated against the allowed task schema and restricted task steps before publishing `/task_plan`.
+
+```bash
+ros2 run pai_llm_planner mock_llm_planner_node --ros-args -p planner_mode:=openai -p openai_model:=gpt-4o-mini
+```
+
 ## Development Status
 
 This repository is at the initial scaffold stage. See:

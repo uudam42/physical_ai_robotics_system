@@ -1,0 +1,54 @@
+{
+  "title": "Physical AI Task Plan",
+  "type": "object",
+  "required": [
+    "task_id",
+    "task_type",
+    "object_name",
+    "source_location",
+    "target_location",
+    "steps"
+  ],
+  "properties": {
+    "task_id": {
+      "type": "string",
+      "description": "Stable identifier for the generated task plan."
+    },
+    "task_type": {
+      "type": "string",
+      "enum": [
+        "pick_and_place",
+        "unsupported"
+      ],
+      "description": "Task category accepted by the executor."
+    },
+    "object_name": {
+      "type": "string",
+      "description": "Object to manipulate, or empty string for unsupported tasks."
+    },
+    "source_location": {
+      "type": "string",
+      "description": "Source location for the object, or empty string for unsupported tasks."
+    },
+    "target_location": {
+      "type": "string",
+      "description": "Destination location for the object, or empty string for unsupported tasks."
+    },
+    "steps": {
+      "type": "array",
+      "description": "Ordered list of executor-supported step names.",
+      "items": {
+        "type": "string",
+        "enum": [
+          "check_object",
+          "move_to_pre_grasp",
+          "open_gripper",
+          "move_to_grasp",
+          "close_gripper",
+          "move_to_target",
+          "return_home"
+        ]
+      }
+    }
+  }
+}
