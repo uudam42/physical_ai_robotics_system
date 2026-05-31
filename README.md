@@ -223,6 +223,16 @@ LLM outputs are treated as untrusted suggestions:
 
 This prevents hallucinated LLM actions from reaching robot execution. See [LLM Planner Safety](docs/llm_planner_safety.md).
 
+## Testing
+
+Run local non-ROS validation checks:
+
+```bash
+./scripts/check_all.sh
+```
+
+See [Testing](docs/testing.md) for ROS 2 build commands, package-specific builds, MoveIt-enabled build checks, and runtime test commands.
+
 ## Roadmap
 
 - Phase 1: Mock natural-language planner and Python executor.
